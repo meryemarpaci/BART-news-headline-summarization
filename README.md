@@ -1,5 +1,7 @@
 # Haber Başlıklarından Otomatik Özetleme Sistemi
 
+##colab: https://colab.research.google.com/drive/15NgtTG7lxyimnut_7dQA_yNhe9Tpal3X?usp=sharing
+
 ## Proje Sonuçları
 
 **Model:** facebook/bart-base  
