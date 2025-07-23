@@ -1,6 +1,6 @@
 # Haber Başlıklarından Otomatik Özetleme Sistemi
 
-## Colab: https://colab.research.google.com/drive/15NgtTG7lxyimnut_7dQA_yNhe9Tpal3X?usp=sharing
+### Colab: https://colab.research.google.com/drive/15NgtTG7lxyimnut_7dQA_yNhe9Tpal3X?usp=sharing
 
 ## Proje Sonuçları
 
