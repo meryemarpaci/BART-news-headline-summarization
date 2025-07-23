@@ -1,21 +1,21 @@
-# 📰 Haber Başlıklarından Otomatik Özetleme Sistemi
+# Haber Başlıklarından Otomatik Özetleme Sistemi
 
-## 🎉 Proje Sonuçları
+## Proje Sonuçları
 
 **Model:** facebook/bart-base  
 **Platform:** Google Colab (NVIDIA A100-SXM4-40GB)  
 **Eğitim Süresi:** 4.5 dakika (265 saniye)  
 **Epoch:** 1.95 (early stopping)  
 
-## 📊 Final ROUGE Skorları
+## Final ROUGE Skorları
 
-- **ROUGE-1**: 0.3163 (31.63%) ✅
-- **ROUGE-2**: 0.1205 (12.05%) ✅  
-- **ROUGE-L**: 0.2264 (22.64%) ✅
+- **ROUGE-1**: 0.3163 (31.63%) 
+- **ROUGE-2**: 0.1205 (12.05%)   
+- **ROUGE-L**: 0.2264 (22.64%) 
 
 ## 📝 Test Sonuçları
 
-### Örnek 1: Uluslararası Hukuk (🏆 En İyi - ROUGE-L: 40.96%)
+### Örnek 1: Uluslararası Hukuk (En İyi - ROUGE-L: 40.96%)
 ```
 Orijinal: Membership gives the ICC jurisdiction over alleged crimes committed in Palestinian territories since last June. Israel and the United States opposed the move, which could open the door to war crimes investigations against Israelis.
 
@@ -53,16 +53,16 @@ Orijinal: Student is no longer on Duke University campus and will face disciplin
 ## 📊 Performans Analizi
 
 **Güçlü Yönler:**
-- ✅ Politik/hukuki konularda yüksek başarı (40.96% ROUGE-L)
-- ✅ Ana olayları doğru özetleme
-- ✅ Önemli varlık isimlerini koruma
-- ✅ Hızlı eğitim süresi
+- Politik/hukuki konularda yüksek başarı (40.96% ROUGE-L)
+- Ana olayları doğru özetleme
+- Önemli varlık isimlerini koruma
+- Hızlı eğitim süresi
 
 **Ortalama ROUGE-L:** ~25.68% (5 örnek üzerinden)
 
 ## 🎯 Sonuç
 
-Model başarıyla eğitildi ve CNN/DailyMail veri seti üzerinde %22+ ROUGE-L skoru elde etti. Politik/hukuki metinlerde %40+ skorla özellikle başarılı. Proje hedefleri başarıyla tamamlandı.
+Model başarıyla eğitildi ve CNN/DailyMail veri seti üzerinde %22+ ROUGE-L skoru elde etti. Politik/hukuki metinlerde %40+ skorla özellikle başarılı. 
 
 **Model Parametreleri:**
 - Batch Size: 4
