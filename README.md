@@ -1,6 +1,7 @@
 # Haber Başlıklarından Otomatik Özetleme Sistemi
 
 ### Colab: https://colab.research.google.com/drive/15NgtTG7lxyimnut_7dQA_yNhe9Tpal3X?usp=sharing
+### Hugging Face: https://huggingface.co/meryemarpaci/BART-news-headline-summarization/
 
 ## Proje Sonuçları
 
