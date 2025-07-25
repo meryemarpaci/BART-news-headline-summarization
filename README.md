@@ -73,36 +73,6 @@ Orijinal: Student is no longer on Duke University campus and will face disciplin
 
 **Ortalama ROUGE-L:** ~24.68% (5 örnek üzerinden)
 
-## 🎯 İyileştirmeler
-
-**Yapılan Güncellemeler:**
-- ✅ Epoch sayısı 3'ten 5'e artırıldı
-- ✅ Loss değerleri CSV dosyasına kaydediliyor
-- ✅ Özetler maksimum 256 karakter ile sınırlandırıldı
-- ✅ Test metinleri maksimum 512 karakter ile sınırlandırıldı
-- ✅ Colab uyumlu optimizasyonlar yapıldı
-- ✅ Detaylı logging ve görselleştirme eklendi
-- ✅ Batch size 80'e optimize edildi
-
-## 🚀 Model Parametreleri
-
-- **Model:** facebook/bart-base
-- **Batch Size:** 80
-- **Learning Rate:** 3e-5
-- **Training Loss:** 3.4359
-- **Evaluation Loss:** 4.8902
-- **Veri Seti:** 5,742 eğitim, 66 doğrulama, 57 test örneği
-- **Özet Maksimum Karakter:** 256
-- **Test Metni Maksimum Karakter:** 512
-
-## 📁 Çıktı Dosyaları
-
-- **Model:** `./saved_model/`
-- **Eğitim sonuçları:** `./results/train_results.json`
-- **Değerlendirme sonuçları:** `./results/eval_results.json`
-- **Loss kayıtları:** `./logs/training_losses_YYYYMMDD_HHMMSS.csv`
-- **Eğitim özeti:** `./results/training_summary.txt`
-- **Örnek özetler:** `./results/sample_summaries.json`
 - **Okunabilir özetler:** `./results/sample_summaries_readable.txt`
 - **Eğitim grafikleri:** `./results/training_plots.png`
 
