@@ -1,5 +1,7 @@
 # Haber Başlıklarından Otomatik Özetleme Sistemi
 
+### Colab: https://colab.research.google.com/drive/15NgtTG7lxyimnut_7dQA_yNhe9Tpal3X?usp=sharing
+
 ## Proje Sonuçları
 
 **Model:** facebook/bart-base  
@@ -105,4 +107,4 @@ Orijinal: Student is no longer on Duke University campus and will face disciplin
 
 ## 🎉 Sonuç
 
-Model başarıyla eğitildi ve test edildi. Karakter limitleri uygulandı, loss değerleri kaydedildi ve detaylı metrikler toplandı. Sistem artık Colab'da çalışmaya hazır! 
+Model başarıyla eğitildi ve test edildi. Karakter limitleri uygulandı, loss değerleri kaydedildi ve detaylı metrikler toplandı. Sistem artık Colab'da çalışmaya hazır!
