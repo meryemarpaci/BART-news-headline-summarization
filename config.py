@@ -11,19 +11,19 @@ class Config:
     MAX_TARGET_LENGTH = 64  # ~256 characters (4 chars per token average)
     MIN_TARGET_LENGTH = 10
     
-    # Training configurations
-    BATCH_SIZE = 2  # Reduced for Colab compatibility
+ 
+    BATCH_SIZE = 80  # Eğitim sonucunda optimize edildi
     LEARNING_RATE = 3e-5  # Slightly reduced for better convergence
-    NUM_EPOCHS = 10  # Increased for better training
+    NUM_EPOCHS = 5  # Eğitim sonucunda 5 epoch kullanıldı
     WARMUP_STEPS = 500
     WEIGHT_DECAY = 0.01
     
     # Data configurations
     DATASET_NAME = "cnn_dailymail"
     DATASET_VERSION = "3.0.0"
-    TRAIN_SIZE = 0.02  # Increased slightly for better training
-    VAL_SIZE = 0.005
-    TEST_SIZE = 0.005
+    TRAIN_SIZE = 0.02  # 5,742 eğitim örneği
+    VAL_SIZE = 0.005   # 66 doğrulama örneği
+    TEST_SIZE = 0.005  # 57 test örneği
     
     # Paths
     OUTPUT_DIR = "./results"
@@ -42,14 +42,20 @@ class Config:
     TEMPERATURE = 0.7
     TOP_P = 0.9
     
-    # Logging configurations
+    # Logging configurations - Eğitim sonuçlarına göre ayarlandı
     SAVE_STEPS = 100  # Save model more frequently
-    EVAL_STEPS = 100  # Evaluate more frequently
+    EVAL_STEPS = 100  # Evaluate more frequently (100, 200, 300. adımlarda)
     LOGGING_STEPS = 50  # Log more frequently
     
-    # Character limits for testing
+    # Character limits for testing - Eğitim sonuçlarına göre doğrulandı
     TEST_ARTICLE_MAX_CHARS = 512  # Max characters for test articles
     SUMMARY_MAX_CHARS = 256  # Max characters for summaries
+    
+    # Eğitim sonuçları
+    FINAL_TRAINING_LOSS = 3.4359
+    FINAL_EVAL_LOSS = 4.8902
+    FINAL_ROUGE_L = 0.2362
+    TRAINING_TIME_MINUTES = 7.6
     
     @classmethod
     def create_directories(cls):
