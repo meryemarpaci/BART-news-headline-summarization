@@ -29,6 +29,20 @@ class DataPreprocessor:
         
         return text
     
+    def truncate_to_chars(self, text, max_chars):
+        """Truncate text to maximum character count while preserving word boundaries"""
+        if len(text) <= max_chars:
+            return text
+        
+        # Find the last space before max_chars
+        truncated = text[:max_chars]
+        last_space = truncated.rfind(' ')
+        
+        if last_space > 0:
+            return truncated[:last_space] + "..."
+        else:
+            return truncated + "..."
+    
     def preprocess_article(self, article):
         """Preprocess article text"""
         # Clean the text
@@ -41,8 +55,13 @@ class DataPreprocessor:
         return article
     
     def preprocess_summary(self, summary):
-        """Preprocess summary text"""
+        """Preprocess summary text and ensure character limit"""
         summary = self.clean_text(summary)
+        
+        # Ensure summary doesn't exceed character limit
+        if len(summary) > self.config.SUMMARY_MAX_CHARS:
+            summary = self.truncate_to_chars(summary, self.config.SUMMARY_MAX_CHARS)
+        
         return summary
     
     def tokenize_data(self, examples):
@@ -111,29 +130,98 @@ class DataPreprocessor:
             remove_columns=["article", "highlights", "id"]
         )
         
+        print(f"📊 Dataset Statistics:")
+        print(f"   Training set: {len(train_dataset)} samples")
+        print(f"   Validation set: {len(val_dataset)} samples")
+        print(f"   Test set: {len(test_dataset)} samples")
+        
         return train_dataset, val_dataset, test_dataset
     
     def get_sample_data(self, num_samples=5):
-        """Get sample data for demonstration"""
+        """Get sample data for demonstration with character limits applied"""
         print("Loading sample data...")
+        dataset = load_dataset(self.config.DATASET_NAME, self.config.DATASET_VERSION)
+        test_data = dataset["test"].select(range(num_samples * 2))  # Load more to find suitable articles
+        
+        samples = []
+        articles_found = 0
+        
+        print(f"📏 Finding articles with suitable length for {self.config.TEST_ARTICLE_MAX_CHARS} character limit...")
+        
+        for i in range(len(test_data)):
+            if articles_found >= num_samples:
+                break
+                
+            original_article = test_data[i]["article"]
+            original_summary = test_data[i]["highlights"]
+            
+            # Preprocess
+            preprocessed_article = self.preprocess_article(original_article)
+            preprocessed_summary = self.preprocess_summary(original_summary)
+            
+            # Apply character limits
+            article_for_test = self.truncate_to_chars(original_article, self.config.TEST_ARTICLE_MAX_CHARS)
+            summary_for_test = self.truncate_to_chars(original_summary, self.config.SUMMARY_MAX_CHARS)
+            
+            sample = {
+                "article": article_for_test,
+                "original_summary": summary_for_test,
+                "preprocessed_article": self.truncate_to_chars(preprocessed_article, self.config.TEST_ARTICLE_MAX_CHARS),
+                "preprocessed_summary": preprocessed_summary,
+                "original_article_chars": len(original_article),
+                "truncated_article_chars": len(article_for_test),
+                "original_summary_chars": len(original_summary),
+                "truncated_summary_chars": len(summary_for_test),
+                "was_article_truncated": len(original_article) > self.config.TEST_ARTICLE_MAX_CHARS,
+                "was_summary_truncated": len(original_summary) > self.config.SUMMARY_MAX_CHARS
+            }
+            
+            samples.append(sample)
+            articles_found += 1
+            
+            print(f"   Sample {articles_found}: Article {sample['truncated_article_chars']} chars" + 
+                  f" {'(truncated)' if sample['was_article_truncated'] else ''}, " +
+                  f"Summary {sample['truncated_summary_chars']} chars" +
+                  f" {'(truncated)' if sample['was_summary_truncated'] else ''}")
+        
+        print(f"✅ Prepared {len(samples)} test samples with character limits applied")
+        
+        return samples
+    
+    def analyze_dataset_lengths(self, num_samples=100):
+        """Analyze character lengths in the dataset"""
+        print(f"📊 Analyzing character lengths in {num_samples} samples...")
+        
         dataset = load_dataset(self.config.DATASET_NAME, self.config.DATASET_VERSION)
         test_data = dataset["test"].select(range(num_samples))
         
-        samples = []
-        for i in range(num_samples):
-            sample = {
-                "article": test_data[i]["article"],
-                "original_summary": test_data[i]["highlights"],
-                "preprocessed_article": self.preprocess_article(test_data[i]["article"]),
-                "preprocessed_summary": self.preprocess_summary(test_data[i]["highlights"])
-            }
-            samples.append(sample)
+        article_lengths = []
+        summary_lengths = []
         
-        return samples
+        for i in range(len(test_data)):
+            article_lengths.append(len(test_data[i]["article"]))
+            summary_lengths.append(len(test_data[i]["highlights"]))
+        
+        print(f"📈 Article Character Statistics:")
+        print(f"   Average: {np.mean(article_lengths):.0f} chars")
+        print(f"   Median: {np.median(article_lengths):.0f} chars")
+        print(f"   Min: {np.min(article_lengths)} chars")
+        print(f"   Max: {np.max(article_lengths)} chars")
+        print(f"   Articles > {self.config.TEST_ARTICLE_MAX_CHARS} chars: {sum(1 for x in article_lengths if x > self.config.TEST_ARTICLE_MAX_CHARS)}/{len(article_lengths)}")
+        
+        print(f"\n📈 Summary Character Statistics:")
+        print(f"   Average: {np.mean(summary_lengths):.0f} chars")
+        print(f"   Median: {np.median(summary_lengths):.0f} chars")
+        print(f"   Min: {np.min(summary_lengths)} chars")
+        print(f"   Max: {np.max(summary_lengths)} chars")
+        print(f"   Summaries > {self.config.SUMMARY_MAX_CHARS} chars: {sum(1 for x in summary_lengths if x > self.config.SUMMARY_MAX_CHARS)}/{len(summary_lengths)}")
 
 if __name__ == "__main__":
     # Test preprocessing
     preprocessor = DataPreprocessor()
+    
+    # Analyze dataset
+    preprocessor.analyze_dataset_lengths()
     
     # Load and preprocess data
     train_dataset, val_dataset, test_dataset = preprocessor.load_and_preprocess_data()
@@ -143,7 +231,9 @@ if __name__ == "__main__":
     print(f"Test dataset size: {len(test_dataset)}")
     
     # Show sample
-    samples = preprocessor.get_sample_data(1)
-    print("\nSample preprocessed data:")
-    print("Article:", samples[0]["preprocessed_article"][:200] + "...")
-    print("Summary:", samples[0]["preprocessed_summary"]) 
+    samples = preprocessor.get_sample_data(3)
+    print(f"\n📝 Sample preprocessed data:")
+    for i, sample in enumerate(samples):
+        print(f"\nSample {i+1}:")
+        print(f"  Article ({sample['truncated_article_chars']} chars): {sample['article'][:100]}...")
+        print(f"  Summary ({sample['truncated_summary_chars']} chars): {sample['original_summary']}") 

@@ -6,22 +6,22 @@ import os
 
 class Config:
     # Model configurations
-    MODEL_NAME = "facebook/bart-base"  # Can be changed to "t5-small" 
+    MODEL_NAME = "facebook/bart-base"  
     MAX_INPUT_LENGTH = 512
-    MAX_TARGET_LENGTH = 150
-    MIN_TARGET_LENGTH = 30
+    MAX_TARGET_LENGTH = 64  # ~256 characters (4 chars per token average)
+    MIN_TARGET_LENGTH = 10
     
     # Training configurations
-    BATCH_SIZE = 4
-    LEARNING_RATE = 5e-5
-    NUM_EPOCHS = 3
+    BATCH_SIZE = 2  # Reduced for Colab compatibility
+    LEARNING_RATE = 3e-5  # Slightly reduced for better convergence
+    NUM_EPOCHS = 10  # Increased for better training
     WARMUP_STEPS = 500
     WEIGHT_DECAY = 0.01
     
     # Data configurations
     DATASET_NAME = "cnn_dailymail"
     DATASET_VERSION = "3.0.0"
-    TRAIN_SIZE = 0.01  # Use small subset for faster training
+    TRAIN_SIZE = 0.02  # Increased slightly for better training
     VAL_SIZE = 0.005
     TEST_SIZE = 0.005
     
@@ -38,9 +38,18 @@ class Config:
     
     # Generation parameters
     NUM_BEAMS = 4
-    DO_SAMPLE = True
+    DO_SAMPLE = False  # For more consistent results
     TEMPERATURE = 0.7
     TOP_P = 0.9
+    
+    # Logging configurations
+    SAVE_STEPS = 100  # Save model more frequently
+    EVAL_STEPS = 100  # Evaluate more frequently
+    LOGGING_STEPS = 50  # Log more frequently
+    
+    # Character limits for testing
+    TEST_ARTICLE_MAX_CHARS = 512  # Max characters for test articles
+    SUMMARY_MAX_CHARS = 256  # Max characters for summaries
     
     @classmethod
     def create_directories(cls):
