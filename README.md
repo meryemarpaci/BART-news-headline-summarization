@@ -8,8 +8,8 @@
 **Model:** facebook/bart-base  
 **Platform:** Google Colab (NVIDIA A100-SXM4-40GB)  
 **Eğitim Süresi:** 7.6 dakika (454 saniye)  
-**Epoch:** 5 (tam eğitim)  
-**Batch Size:** 80 (optimize edilmiş)
+**Epoch:** 5 
+**Batch Size:** 80 
 
 ## Final ROUGE Skorları
 
@@ -72,10 +72,3 @@ Orijinal: Student is no longer on Duke University campus and will face disciplin
 - ✅ Test metinlerinde 512 karakter sınırı
 
 **Ortalama ROUGE-L:** ~24.68% (5 örnek üzerinden)
-
-- **Okunabilir özetler:** `./results/sample_summaries_readable.txt`
-- **Eğitim grafikleri:** `./results/training_plots.png`
-
-## 🎉 Sonuç
-
-Model başarıyla eğitildi ve test edildi. Karakter limitleri uygulandı, loss değerleri kaydedildi ve detaylı metrikler toplandı. Sistem artık Colab'da çalışmaya hazır!
